@@ -45,8 +45,7 @@ public class AuthService {
 
     @Transactional
     public JwtAuthenticationResponse loginUser(LoginRequest loginRequest) {
-        var user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + loginRequest.getUsername()));
+        var user = getValidUser(loginRequest);
 
         var userPrincipal = UserPrincipal.create(user);
         var authentication = new UsernamePasswordAuthenticationToken(userPrincipal, loginRequest.getPassword());
@@ -58,6 +57,17 @@ public class AuthService {
         var userId = tokenProvider.getUserIdFromToken(accessToken);
 
         return new JwtAuthenticationResponse(accessToken, refreshToken, userId);
+    }
+
+    private User getValidUser(LoginRequest loginRequest) {
+        var user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + loginRequest.getUsername()));
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new UserNotFoundException("Bad credentials");
+        }
+
+        return user;
     }
 
     public JwtAuthenticationResponse generateTokensFromUserEntity(User user) {
