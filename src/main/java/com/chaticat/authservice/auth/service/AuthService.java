@@ -5,7 +5,7 @@ import com.chaticat.authservice.auth.payload.request.SignUpRequest;
 import com.chaticat.authservice.auth.payload.request.TokenRequest;
 import com.chaticat.authservice.auth.payload.response.JwtAuthenticationResponse;
 import com.chaticat.authservice.config.PropertiesConfig;
-import com.chaticat.authservice.exception.exception.UserNotFoundException;
+import com.chaticat.authservice.exception.UserNotFoundException;
 import com.chaticat.authservice.persistence.entity.User;
 import com.chaticat.authservice.persistence.repository.UserRepository;
 import com.chaticat.authservice.security.JwtTokenProvider;

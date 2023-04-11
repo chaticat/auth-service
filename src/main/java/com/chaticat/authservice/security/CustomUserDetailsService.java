@@ -1,6 +1,6 @@
 package com.chaticat.authservice.security;
 
-import com.chaticat.authservice.exception.exception.UserNotFoundException;
+import com.chaticat.authservice.exception.UserNotFoundException;
 import com.chaticat.authservice.persistence.entity.User;
 import com.chaticat.authservice.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

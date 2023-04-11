@@ -1,4 +1,4 @@
-package com.chaticat.authservice.exception.exception;
+package com.chaticat.authservice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

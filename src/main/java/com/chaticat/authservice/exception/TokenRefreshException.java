@@ -1,4 +1,4 @@
-package com.chaticat.authservice.exception.exception;
+package com.chaticat.authservice.exception;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

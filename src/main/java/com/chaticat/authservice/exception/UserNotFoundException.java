@@ -1,4 +1,4 @@
-package com.chaticat.authservice.exception.exception;
+package com.chaticat.authservice.exception;
 
 public class UserNotFoundException extends RuntimeException {
 
