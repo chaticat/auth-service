@@ -6,6 +6,8 @@ import com.chaticat.authservice.auth.payload.request.TokenRequest;
 import com.chaticat.authservice.auth.payload.response.JwtAuthenticationResponse;
 import com.chaticat.authservice.config.PropertiesConfig;
 import com.chaticat.authservice.exception.UserNotFoundException;
+import com.chaticat.authservice.feign.client.ElasticSearchServiceClient;
+import com.chaticat.authservice.feign.payload.UserRequest;
 import com.chaticat.authservice.persistence.entity.User;
 import com.chaticat.authservice.persistence.repository.UserRepository;
 import com.chaticat.authservice.security.JwtTokenProvider;
@@ -28,6 +30,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
     private final PropertiesConfig.JwtProperties properties;
+    private final ElasticSearchServiceClient elasticSearchServiceClient;
 
     @Transactional(readOnly = true)
     public Boolean existsByUsername(String username) {
@@ -40,7 +43,18 @@ public class AuthService {
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        indexUserInElastic(savedUser);
+    }
+
+    private void indexUserInElastic(User savedUser) {
+        UserRequest userRequest = UserRequest.builder()
+                .id(savedUser.getId())
+                .username(savedUser.getUsername())
+                .build();
+
+        elasticSearchServiceClient.saveUser(userRequest);
     }
 
     @Transactional
