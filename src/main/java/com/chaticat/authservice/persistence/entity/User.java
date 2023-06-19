@@ -20,6 +20,9 @@ public class User extends AbstractVersional {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "private")
+    private boolean isPrivate = false;
 }
 
 

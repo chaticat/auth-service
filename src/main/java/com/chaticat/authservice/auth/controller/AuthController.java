@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<Object> refreshJwtToken(@RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(authService.generateNewTokens(tokenRequest));
+        return ResponseEntity.ok(authService.refreshAccessToken(tokenRequest));
     }
 
     @GetMapping("/username-exists")

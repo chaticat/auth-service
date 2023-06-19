@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface ElasticSearchServiceClient {
 
     @Async
-    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    @RequestMapping(method = RequestMethod.POST, value = "/search/users")
     void saveUser(@RequestBody UserRequest request);
 }

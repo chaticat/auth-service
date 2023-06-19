@@ -99,12 +99,13 @@ public class AuthService {
         return new JwtAuthenticationResponse(accessToken, refreshToken, userId);
     }
 
-    public JwtAuthenticationResponse generateNewTokens(TokenRequest tokenRequest) {
+    public JwtAuthenticationResponse refreshAccessToken(TokenRequest tokenRequest) {
+        tokenProvider.validateToken(tokenRequest.getRefreshToken());
+
         UUID userId = tokenProvider.getUserIdFromToken(tokenRequest.getRefreshToken());
         String newAccessToken = tokenProvider.generateToken(userId, properties.getExpirationAccessToken());
-        String newRefreshToken = tokenProvider.generateToken(userId, properties.getExpirationRefreshToken());
 
-        return new JwtAuthenticationResponse(newAccessToken, newRefreshToken, userId);
+        return new JwtAuthenticationResponse(newAccessToken, tokenRequest.getRefreshToken(), userId);
     }
 
     public String createAccessToken(Authentication authentication) {

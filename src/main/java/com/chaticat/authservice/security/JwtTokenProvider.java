@@ -36,7 +36,6 @@ public class JwtTokenProvider {
                 .sign(Algorithm.HMAC512(properties.getSecretKey()));
     }
 
-
     public UUID getUserIdFromToken(String authToken) {
         var decodedJWT = getDecodedJWT(authToken);
         return UUID.fromString(decodedJWT.getSubject());
@@ -63,7 +62,6 @@ public class JwtTokenProvider {
 
     public Boolean checkExpirationAccessToken(String refreshToken) {
         Long expirationRefreshToken = getExpirationFromJWT(refreshToken);
-
         return expirationRefreshToken - getConstantExpirationRefreshToken() < 0;
     }
 
